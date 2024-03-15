@@ -65,7 +65,7 @@ for key in keys:
         if key.number in selectorKeys.keys():
             layers.checkLayerChange(key.number)
 
-        elif key.number in layerKeys.keys():
+        elif key.number in layerKeys.keys() or key.number in layers.getQuickActionKeys().keys():
             strat = layers.getStratagem(key.number)
             callStratagem(strat)
 

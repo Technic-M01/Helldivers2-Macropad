@@ -38,6 +38,17 @@ class Layers:
             12: KeyColors.PURPLE
             }
         
+        layer_0 = {
+            5:  None,
+            9:  None,
+            13: None,
+            6:  None,
+            10: None,
+            14: None,
+            7:  None,
+            11: None,
+            15: None 
+            }
 
                 # offensive stratagems
         layer_1 = {
@@ -64,8 +75,25 @@ class Layers:
             11: StratagemInputs.grenade_launcher, # |---- third row on macropad
             15: StratagemInputs.patriot_exosuit  #/
             }
+        layer_3 = {
+            5:  StratagemInputs.mortar_sentry,
+            9:  StratagemInputs.autocannon_sentry,
+            13: StratagemInputs.rocket_sentry,
+            6:  StratagemInputs.tesla_tower,
+            10: StratagemInputs.shield_generator_relay,
+            14: None,
+            7:  None,
+            11: None,
+            15: None 
+            }
         
-        self.aLayers = [layer_1, layer_2]
+        self.quick_action_layer = {
+            4: StratagemInputs.reinforce,
+            8: StratagemInputs.resupply,
+            12: None
+        }
+        
+        self.allLayers = [layer_0, layer_1, layer_2, layer_3]  
         self.setDefaultKeys()
 
     # sets up leds for selector and quick action keys
@@ -79,7 +107,7 @@ class Layers:
             k.rgb = self.quick_action_keys[i]
             k.led_on()
         
-        self.checkLayerChange(0) #initialize with layer 0
+        self.checkLayerChange(1) #initialize with layer 0
 
     def checkLayerChange(self, keyNumber):
         if keyNumber in self.selector_keys.keys():
@@ -91,9 +119,11 @@ class Layers:
                 k.led_on()
 
     def getStratagem(self, keyNumber):
-        layer = self.aLayers[self.current_layer]
+        layer = self.allLayers[self.current_layer]
         if keyNumber in layer.keys():
             return layer[keyNumber]
+        elif keyNumber in self.quick_action_layer.keys():
+            return self.quick_action_layer[keyNumber]
         else:
             return None
 
@@ -103,61 +133,5 @@ class Layers:
     def getLayerKeys(self):
         return self.layer_keys
 
-    """
-    # custom layer
-    layer_0 = {
-        5:  , #\
-        9:  , # |---- first row on macropad
-        13: , #/
-        6:  , #\
-        10: , # |---- second row on macropad
-        14: , #/
-        7:  , #\
-        11: , # |---- third row on macropad
-        15:   #/
-        }
-    """
-
-    # offensive stratagems
-    layer_1 = {
-        5:  StratagemInputs.orbital_laser,              #\
-        9:  StratagemInputs.orbital_railcannon,         # |---- first row on macropad
-        13: StratagemInputs.eagle_500kg,                #/
-        6:  StratagemInputs.eagle_110mm_rocket_pods,    #\
-        10: StratagemInputs.eagle_cluster_bomb,         # |---- second row on macropad
-        14: StratagemInputs.eagle_napalm_airstrike,     #/
-        7:  StratagemInputs.orbital_gas_strike,         #\
-        11: StratagemInputs.orbital_percision_strike,   # |---- third row on macropad
-        15: StratagemInputs.orbital_ems_strike          #/
-        }
-
-    # support stratagems
-    layer_2 = {
-        5:  StratagemInputs.autocannon, #\
-        9:  StratagemInputs.recoilless_rifle, # |---- first row on macropad
-        13: StratagemInputs.flamethrower, #/
-        6:  StratagemInputs.spear, #\
-        10: StratagemInputs.machine_gun, # |---- second row on macropad
-        14: StratagemInputs.railgun, #/
-        7:  StratagemInputs.guard_dog, #\
-        11: StratagemInputs.grenade_launcher, # |---- third row on macropad
-        15: StratagemInputs.patriot_exosuit  #/
-        }
-
-    """
-    # reinforcement stratagems
-    layer_3 = {
-        5:  , #\
-        9:  , # |---- first row on macropad
-        13: , #/
-        6:  , #\
-        10: , # |---- second row on macropad
-        14: , #/
-        7:  , #\
-        11: , # |---- third row on macropad
-        15:   #/
-        }
-    """
-
-    all_layers = [layer_1,
-             layer_2]
+    def getQuickActionKeys(self):
+        return self.quick_action_keys
